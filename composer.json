@@ -1,0 +1,18 @@
+{
+    "name": "2alheure/markdoc",
+    "description": "Library that allows to generate documentation over a directory of markdown files",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Dealheure\\Markdoc\\": "src/"
+        }
+    },
+    "authors": [{
+        "name": "2alheure",
+        "email": "contact@2alheure.fr"
+    }],
+    "require": {
+        "hkod/frontmatter": "^1.1"
+    }
+}

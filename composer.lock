@@ -1,0 +1,76 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "9e2634607bfedeec1b99cd5b496c799d",
+    "packages": [
+        {
+            "name": "hkod/frontmatter",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hanneskod/frontmatter.git",
+                "reference": "0f9209a314d8b8a768e4679ce8d8a235644acd85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hanneskod/frontmatter/zipball/0f9209a314d8b8a768e4679ce8d8a235644acd85",
+                "reference": "0f9209a314d8b8a768e4679ce8d8a235644acd85",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "erusev/parsedown": "^1",
+                "mustache/mustache": "^2",
+                "symfony/yaml": ">=3, <5"
+            },
+            "suggest": {
+                "erusev/parsedown": "For parsing Markdown",
+                "mustache/mustache": "For parsing Mustache templates",
+                "symfony/yaml": "For parsing YAML"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "hkod\\frontmatter\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Unlicense"
+            ],
+            "authors": [
+                {
+                    "name": "Hannes Forsgård",
+                    "email": "hannes.forsgard@fripost.org"
+                }
+            ],
+            "description": "A context aware frontmatter parser that supports multiple formats and uses a clean OOP architecture",
+            "homepage": "https://github.com/hanneskod/frontmatter",
+            "keywords": [
+                "frontmatter",
+                "metadata"
+            ],
+            "support": {
+                "issues": "https://github.com/hanneskod/frontmatter/issues",
+                "source": "https://github.com/hanneskod/frontmatter/tree/master"
+            },
+            "time": "2018-02-11T13:24:19+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
+}
