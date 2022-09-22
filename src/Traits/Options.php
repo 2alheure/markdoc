@@ -7,8 +7,8 @@ use InvalidArgumentException;
 trait Options {
     protected array $options = [];
 
-    public function getOptions(): array {
-        return $this->options;
+    public function getOptions(string $key = '') {
+        return empty($key) ? $this->options : $this->options[$key] ?? $this->defaultOptions()[$key] ?? null;
     }
 
     public function setOptions(array $options): self {

@@ -13,6 +13,7 @@
         "email": "contact@2alheure.fr"
     }],
     "require": {
-        "hkod/frontmatter": "^1.1"
+        "league/commonmark": "^2.3",
+        "symfony/yaml": "^6.1"
     }
 }

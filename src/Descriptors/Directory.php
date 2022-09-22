@@ -10,13 +10,22 @@ class Directory {
 
     protected string $directory = '';
     protected array $files = [];
-    protected array $menu = [];
+    protected Menu $menu;
 
     function __construct(string $directory, array $options = []) {
         $this->directory = $directory;
         $this->setOptions($options);
+        $this->menu = new Menu($options);
 
         $this->parse();
+    }
+
+    public function defaultOptions() {
+        return [
+            'menu_order' => [
+                'index'
+            ]
+        ];
     }
 
     public function parse(): self {
@@ -32,9 +41,6 @@ class Directory {
             )
                 $this->addFile($this->directory . '/' . $file);
         }
-
-
-        // @TODO : Create menu
 
         return $this;
     }
@@ -55,11 +61,26 @@ class Directory {
     }
 
     public function addFile(string $filename): self {
-        $this->files[] = new File($filename);
+        $file = new File($filename);
+        $this->files[] = $file;
+
+        $menuItem = new MenuItem($filename);
+
+        $basename = substr(basename($file->getFilename()), 0, -3);
+
+        $menuItem->setOrder(array_keys($this->getOptions('menu_order'), $basename)[0] ?? PHP_INT_MAX);
+
+        if ($file->hasMeta('title')) $menuItem->setTitle($file->getMeta('title'));
+        else $menuItem->setTitle(str_replace(['-', '_', '.'], ' ', ucFirst($basename)));
+
+        if ($file->hasMeta('description')) $menuItem->setDescription($file->getMeta('description'));
+
+        $this->menu->addItem($menuItem);
+
         return $this;
     }
 
-    public function getMenu(): array {
+    public function getMenu(): Menu {
         return $this->menu;
     }
 }
