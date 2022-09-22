@@ -55,4 +55,8 @@ class MenuItem {
         $this->filename = $filename;
         return $this;
     }
+
+    public function __toString() {
+        return '<li><a href="' . $this->filename . '" title="' . $this->description . '">' . $this->title . '</a></li>';
+    }
 }

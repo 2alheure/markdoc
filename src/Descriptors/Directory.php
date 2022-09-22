@@ -64,9 +64,8 @@ class Directory {
         $file = new File($filename);
         $this->files[] = $file;
 
-        $menuItem = new MenuItem($filename);
-
         $basename = substr(basename($file->getFilename()), 0, -3);
+        $menuItem = new MenuItem($basename);
 
         $menuItem->setOrder(array_keys($this->getOptions('menu_order'), $basename)[0] ?? PHP_INT_MAX);
 

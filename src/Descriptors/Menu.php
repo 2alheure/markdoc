@@ -2,6 +2,7 @@
 
 namespace Dealheure\Markdoc\Descriptors;
 
+use InvalidArgumentException;
 use Dealheure\Markdoc\Traits\Options;
 
 class Menu {
@@ -12,6 +13,19 @@ class Menu {
 
     function __construct(array $options = []) {
         $this->setOptions($options);
+    }
+
+    public function checkOptions() {
+        if (array_key_exists('type', $this->options) && !in_array($this->options['type'], ['ordered', 'unordered']))
+            return false;
+
+        return true;
+    }
+
+    public function defaultOptions() {
+        return [
+            'type' => 'unordered'
+        ];
     }
 
     public function getItems(): array {
@@ -36,10 +50,6 @@ class Menu {
         return $this;
     }
 
-    public function getOptions(): array {
-        return $this->options;
-    }
-
     public function sortItems() {
         if (!$this->sorted) {
             usort($this->items, function ($a, $b) {
@@ -48,5 +58,24 @@ class Menu {
 
             $this->sorted = true;
         }
+    }
+
+    public function __toString() {
+        switch ($this->getOptions('type')) {
+            case 'ordered':
+                $html_tag = 'ol';
+                break;
+
+            case 'unordered':
+                $html_tag = 'ul';
+                break;
+
+            default:
+                throw new InvalidArgumentException('Invalid type provided for menu. Should be `ordered` or `unordered`.');
+        }
+
+        return '<' . $html_tag . '>' . PHP_EOL
+            . implode(PHP_EOL, $this->getItems()) . PHP_EOL
+            . '</' . $html_tag . '>';
     }
 }

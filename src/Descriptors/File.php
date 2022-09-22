@@ -6,8 +6,11 @@ use InvalidArgumentException;
 use Dealheure\Markdoc\Traits\Options;
 use League\CommonMark\MarkdownConverter;
 use League\CommonMark\Environment\Environment;
+use League\CommonMark\Output\RenderedContentInterface;
 use League\CommonMark\Extension\FrontMatter\FrontMatterExtension;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\TableOfContents\TableOfContentsExtension;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
 use League\CommonMark\Extension\FrontMatter\Output\RenderedContentWithFrontMatter;
 
 class File {
@@ -16,6 +19,7 @@ class File {
     protected string $filename = '';
     protected array|string $meta = [];
     protected string $html = '';
+    protected RenderedContentInterface $renderedContent;
 
     public function __construct(string $filename, array $options = []) {
         $this->filename = $filename;
@@ -41,18 +45,25 @@ class File {
             throw new InvalidArgumentException($this->filename . ' is not a markdown file.');
 
         $environment = $this->getOptions('environment') ??
-            (new Environment)
+            (new Environment([
+                'table_of_contents' => [
+                    'position' => 'before-headings',
+                    'min_heading_level' => 2,
+                ],
+            ]))
             ->addExtension(new CommonMarkCoreExtension)
-            ->addExtension(new FrontMatterExtension);
+            ->addExtension(new FrontMatterExtension)
+            ->addExtension(new HeadingPermalinkExtension)
+            ->addExtension(new TableOfContentsExtension);
 
-        $parsed = (new MarkdownConverter($environment))
+        $this->renderedContent = (new MarkdownConverter($environment))
             ->convert(file_get_contents($this->filename));
 
-        if ($parsed instanceof RenderedContentWithFrontMatter) {
-            $this->meta = $parsed->getFrontMatter();
+        if ($this->renderedContent instanceof RenderedContentWithFrontMatter) {
+            $this->meta = $this->renderedContent->getFrontMatter();
         }
 
-        $this->html = $parsed->getContent();
+        $this->html = $this->renderedContent->getContent();
     }
 
     public function getFilename(): string {
@@ -81,5 +92,9 @@ class File {
         $this->html = $html;
 
         return $this;
+    }
+    
+    public function __toString() {
+        return $this->html;
     }
 }
