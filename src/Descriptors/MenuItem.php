@@ -57,6 +57,6 @@ class MenuItem {
     }
 
     public function __toString() {
-        return '<li><a href="' . $this->filename . '" title="' . $this->description . '">' . $this->title . '</a></li>';
+        return '<li><a href="#' . $this->filename . '" title="' . $this->description . '">' . $this->title . '</a></li>';
     }
 }

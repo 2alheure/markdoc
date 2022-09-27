@@ -53,6 +53,10 @@ class Directory {
         return $this->files;
     }
 
+    public function getFile(string $name): File {
+        return $this->files[$name];
+    }
+
     public function setFiles(array $files): self {
         foreach ($files as $file)
             $this->addFile($file);
@@ -62,9 +66,9 @@ class Directory {
 
     public function addFile(string $filename): self {
         $file = new File($filename);
-        $this->files[] = $file;
 
         $basename = substr(basename($file->getFilename()), 0, -3);
+        $this->files[$basename] = $file;
         $menuItem = new MenuItem($basename);
 
         $menuItem->setOrder(array_keys($this->getOptions('menu_order'), $basename)[0] ?? PHP_INT_MAX);
@@ -81,5 +85,9 @@ class Directory {
 
     public function getMenu(): Menu {
         return $this->menu;
+    }
+
+    public function print() {
+        require __DIR__ . '/../Views/directory.php';
     }
 }
